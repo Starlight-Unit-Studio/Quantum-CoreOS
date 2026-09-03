@@ -1,0 +1,42 @@
+name: Quantum CoreOS Legal Files
+
+on:
+  pull_request:
+    paths:
+      - 'LICENSE.de.md'
+      - 'LICENSE.md'
+      - 'LICENSE_HISTORY.md'
+      - 'NOTICE.md'
+      - 'COPYRIGHT.md'
+      - 'TRADEMARKS.md'
+      - 'THIRD_PARTY_NOTICES.md'
+      - 'docs/LICENSE-FAMILY.md'
+      - 'scripts/verify-legal.sh'
+      - '.github/workflows/legal.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'LICENSE.de.md'
+      - 'LICENSE.md'
+      - 'LICENSE_HISTORY.md'
+      - 'NOTICE.md'
+      - 'COPYRIGHT.md'
+      - 'TRADEMARKS.md'
+      - 'THIRD_PARTY_NOTICES.md'
+      - 'docs/LICENSE-FAMILY.md'
+      - 'scripts/verify-legal.sh'
+      - '.github/workflows/legal.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Verify legal files
+        run: sh scripts/verify-legal.sh

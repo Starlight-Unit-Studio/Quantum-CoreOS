@@ -9,9 +9,12 @@ This directory contains the planning and integration baseline for Quantum CoreOS
 - `INTERFACE-DESIGN.md`: desktop and terran frame design language
 - `TCI.md`: OS-native Terran Cognitive Intelligence, Gemma 4 e4b target and permission model
 - `CANON-PUBLIC.md`: public in-universe history used by the project
+- `LICENSE-FAMILY.md`: shared Community Source principles and project-specific commercial boundaries
 
 The real project and the fictional 2163 reference share design DNA, but their version numbers and technical claims remain separate.
 
 Ember CoreUI remains a standalone Repack with its own lifecycle and does not require Quantum CoreOS.
 
 Quantum CoreOS is implemented only after independently released Quantum Runtime and Quantum Control versions satisfy the documented integration gates.
+
+Quantum Runtime, Quantum Control, and Quantum CoreOS use separate project-specific Community Source License 1.0 texts. The German license in each repository is legally controlling.

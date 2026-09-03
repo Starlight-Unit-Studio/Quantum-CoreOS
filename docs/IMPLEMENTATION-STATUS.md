@@ -64,6 +64,20 @@ Next tracked work:
 - ownership states `managed`, `external` and `disabled`
 - durable actor, authorization and audit contracts before mutations
 
+## License family
+
+The project-specific Starlight Unit Studios Community Source License 1.0 family is selected for Quantum Runtime, Quantum Control, and Quantum CoreOS.
+
+Shared rules include royalty-free private and internal use, no license-enforcement telemetry, source availability for distributed modifications, preserved project attribution, and no white-label resale of the Quantum products themselves.
+
+The commercial boundary differs by product:
+
+- Quantum Runtime permits Integrated Application Use but not a paid standalone general-purpose Runtime service.
+- Quantum Control permits commercial hosting and managed-service operation, including limited customer access, but not sale or white-label resale of the Control product itself.
+- Quantum CoreOS permits commercial service operation and hardware or installation charges, but not sale of CoreOS as a separate software license, paid image, activation, or white-label distribution.
+
+Each repository contains its own German controlling text and English convenience translation. Third-party components always retain their own terms.
+
 ## CoreOS integration gate
 
 CoreOS implementation begins only after independently released Runtime and Control versions satisfy the integration gates tracked in repository issue 2.
