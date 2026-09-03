@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use or reference Quantum CoreOS, please cite the archived software release."
+title: "Quantum CoreOS"
+type: software
+authors:
+  - family-names: "Schildgen"
+    given-names: "Patrick"
+    affiliation: "Starlight Unit Studios"
+repository-code: "https://github.com/Starlight-Unit-Studio/Quantum-CoreOS"
+url: "https://github.com/Starlight-Unit-Studio/Quantum-CoreOS"
+abstract: >-
+  Quantum CoreOS is the operating-system integration project of Starlight Unit
+  Studios. The current repository is a planning and integration baseline that
+  defines the future relationship between Quantum Runtime, Quantum Control,
+  the TCI layer and the Quantum Shell before bootable OS images are produced.
+keywords:
+  - operating system
+  - AI-first computing
+  - system integration
+  - Starlight Unit Studios
