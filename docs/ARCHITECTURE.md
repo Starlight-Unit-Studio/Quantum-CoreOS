@@ -11,6 +11,8 @@ Quantum CoreOS is planned as an AI-first, Linux-based Unix-like operating system
 - AI inference and system administration stay separate.
 - Existing external services can be adopted without being overwritten.
 - CoreUI, Game, web apps and OS keep independent versions and lifecycles.
+- Ember CoreUI remains permanently available as a standalone Repack for users who do not want Quantum CoreOS.
+- The native OS TCI is a Quantum CoreOS component, not a hidden dependency of Ember CoreUI.
 - Updates must be transactional, verifiable and rollback-capable.
 
 ## Component model
@@ -43,15 +45,53 @@ Quantum CoreOS
 |   +-- GPU and VRAM allocation
 |   +-- model residency and priorities
 |
++-- Quantum TCI
+|   +-- OS-native cognitive identity
+|   +-- canonical Gemma 4 e4b target
+|   +-- personality package and continuity
+|   +-- typed context providers and actions
+|
 +-- Quantum Shell
 |   +-- desktop shell and compositor integration
 |   +-- windows, frames, notifications, launcher
 |
 +-- Applications
-    +-- Ember CoreUI
+    +-- optional Ember CoreUI package
     +-- STΛRLIGHT UNIT The Game
     +-- Starlight Unit web applications
 ```
+
+## Product independence
+
+**Ember CoreUI remains a first-class standalone product and Repack.** Quantum CoreOS may ship an optimized package for it, but CoreUI itself must continue to install and run on supported non-Quantum operating systems and retain its own installer, versioning and release lifecycle.
+
+This serves users who want the CoreUI stack without replacing their operating system and prevents the OS project from becoming a prerequisite for the existing product.
+
+## TCI layer
+
+Quantum CoreOS contains its own system-wide Terran Cognitive Intelligence layer. The first canonical model target is Gemma 4 e4b, hosted through Quantum Runtime.
+
+The TCI is intentionally separated from both the inference runtime and the privileged system broker:
+
+```text
+Gemma 4 e4b
+    |
+Quantum Runtime
+    |
+Quantum TCI
+    |
++-- Quantum Shell
++-- notifications/search
++-- files and applications
++-- diagnostics
++-- Quantum Control requests
+    |
+qcored only for typed privileged operations
+```
+
+The TCI carries a stable original personality package, identity and continuity across OS surfaces. Mutable user memories and live machine state remain outside the model recipe and are supplied through scoped services.
+
+See `TCI.md` for the detailed model, personality and authorization plan.
 
 ## KeyHelp replacement
 
@@ -105,11 +145,13 @@ CoreUI and the Game should target a stable runtime contract instead of embedding
 8. Updates use verification, health checks and rollback.
 9. External components remain untouched until explicitly adopted.
 10. GPU access is centrally schedulable.
+11. TCI context providers expose only permission-scoped system information.
+12. The TCI personality package never contains user secrets or live mutable state.
 
 ## Versioning
 
-Quantum CoreOS, Quantum Control, Quantum Runtime, Quantum Shell, Ember CoreUI, STU Game and STU Repack keep independent version numbers. An OS release records a tested compatibility matrix instead of forcing all components to share one version.
+Quantum CoreOS, Quantum Control, Quantum Runtime, Quantum TCI, Quantum Shell, Ember CoreUI, STU Game and STU Repack keep independent version numbers. An OS release records a tested compatibility matrix instead of forcing all components to share one version.
 
 ## First practical target
 
-The first practical CoreOS work is contracts, package boundaries and a prototype shell. It is not a custom kernel and not yet a full ISO.
+The first practical CoreOS work is contracts, package boundaries, the TCI prototype and a prototype shell. It is not a custom kernel and not yet a full ISO.
