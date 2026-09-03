@@ -30,16 +30,28 @@ NARU-CIVIL // AUTHENTICATED
 Welcome to Quantum Core OS.
 ```
 
-## Planning baseline
+## Real project status
 
-Quantum CoreOS is being planned as an AI-first operating-system platform with an integrated but modular AI runtime, server control layer and distinctive desktop shell.
+Quantum CoreOS is planned as an AI-first operating-system platform with an integrated but modular AI runtime, server control layer, Terran Cognitive Intelligence and distinctive desktop shell.
+
+The operating system itself is deliberately built last. Its two reusable upstream modules are developed and proven independently first:
+
+- `Starlight-Unit-Studio/Quantum-Runtime`, the model and inference service
+- `Starlight-Unit-Studio/Quantum-Control`, the Linux and server administration platform
+
+Both projects now contain executable `0.1.0-alpha.1` foundations. Quantum CoreOS is not yet a bootable distribution and does not claim a completed Runtime, KeyHelp replacement or TCI.
+
+Ember CoreUI remains a permanent standalone Repack for users who do not want to replace their existing operating system. Quantum CoreOS may later provide an optimized CoreUI package, but it never becomes a CoreUI prerequisite.
 
 The 2163 terminal block above is the fictional Starlight Unit reference. The real implementation and its technical claims remain explicitly separate.
 
-Planning documents:
+## Documentation
 
 - [Architecture](docs/ARCHITECTURE.md)
 - [Roadmap](docs/ROADMAP.md)
+- [Implementation status](docs/IMPLEMENTATION-STATUS.md)
+- [Project boundaries](docs/PROJECT-BOUNDARIES.md)
+- [TCI plan](docs/TCI.md)
 - [Interface design](docs/INTERFACE-DESIGN.md)
 - [Public in-universe canon](docs/CANON-PUBLIC.md)
 
