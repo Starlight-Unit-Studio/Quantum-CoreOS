@@ -1,0 +1,100 @@
+name: Quantum CoreOS Release
+
+on:
+  pull_request:
+    paths:
+      - VERSION
+      - CITATION.cff
+      - docs/RELEASING.md
+      - .github/workflows/release.yml
+  push:
+    branches:
+      - main
+    paths:
+      - VERSION
+      - CITATION.cff
+      - docs/RELEASING.md
+      - .github/workflows/release.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: quantum-coreos-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Read and validate version
+        id: version
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="$(tr -d '[:space:]' < VERSION)"
+          if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$ ]]; then
+            echo "Invalid VERSION: $version" >&2
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "tag=v$version" >> "$GITHUB_OUTPUT"
+          if [[ "$version" == *-* ]]; then
+            echo "prerelease=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "prerelease=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Verify legal boundary
+        run: sh scripts/verify-legal.sh
+
+      - name: Build planning archive
+        shell: bash
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          tar -czf "dist/quantum-coreos_${VERSION}_planning.tar.gz" \
+            README.md VERSION CITATION.cff docs assets \
+            LICENSE.de.md LICENSE.md LICENSE_HISTORY.md NOTICE.md COPYRIGHT.md TRADEMARKS.md THIRD_PARTY_NOTICES.md
+          (
+            cd dist
+            sha256sum quantum-coreos_*_planning.tar.gz > SHA256SUMS
+          )
+
+      - name: Create GitHub release if absent
+        if: github.event_name != 'pull_request'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+          TAG: ${{ steps.version.outputs.tag }}
+          PRERELEASE: ${{ steps.version.outputs.prerelease }}
+        run: |
+          set -euo pipefail
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release $TAG already exists. Nothing to do."
+            exit 0
+          fi
+
+          args=(
+            "$TAG"
+            dist/quantum-coreos_*_planning.tar.gz
+            dist/SHA256SUMS
+            --target "$GITHUB_SHA"
+            --title "Quantum CoreOS $VERSION"
+            --generate-notes
+          )
+
+          if [[ "$PRERELEASE" == "true" ]]; then
+            args+=(--prerelease)
+          else
+            args+=(--latest)
+          fi
+
+          gh release create "${args[@]}"
