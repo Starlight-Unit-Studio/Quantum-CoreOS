@@ -12,10 +12,37 @@ Quantum CoreOS is planned as an AI-first, Linux-based Unix-like operating system
 - Existing external services can be adopted without being overwritten.
 - CoreUI, Game, web apps and OS keep independent versions and lifecycles.
 - Ember CoreUI remains permanently available as a standalone Repack for users who do not want Quantum CoreOS.
+- Quantum Runtime and Quantum Control are independent upstream products, not internal CoreOS subsystems.
+- Quantum CoreOS is built after those two modules are independently usable and stable.
 - The native OS TCI is a Quantum CoreOS component, not a hidden dependency of Ember CoreUI.
 - Updates must be transactional, verifiable and rollback-capable.
 
-## Component model
+## Project topology
+
+```text
+Ember CoreUI
+   |
+   +---- optional Quantum Runtime integration
+   +---- optional Quantum Control integration
+
+Quantum Runtime   <------ standalone project/repository
+        |
+        +------------------------------+
+                                       |
+Quantum Control   <------ standalone project/repository
+        |                              |
+        +------------------------------+
+                                       |
+                               Quantum CoreOS
+                                       |
+                              +--------+--------+
+                              |                 |
+                         Quantum TCI       Quantum Shell
+```
+
+Quantum CoreOS consumes released Runtime and Control packages and adds OS-specific profiles, policy and integration. It does not absorb their source ownership and does not maintain private forks.
+
+## Component model inside a CoreOS installation
 
 ```text
 Quantum CoreOS
@@ -25,17 +52,16 @@ Quantum CoreOS
 |   +-- systemd, networking, storage
 |   +-- GPU drivers and compute stack
 |
-+-- Quantum Control
++-- Quantum Control package
 |   +-- domains, TLS, web services, PHP
 |   +-- databases, containers, backups
 |   +-- firewall, logs, health, updates
 |
-+-- qcored
-|   +-- privileged system broker
++-- qcored / Control privileged broker
 |   +-- typed allowlisted operations
 |   +-- authorization and audit
 |
-+-- Quantum Runtime
++-- Quantum Runtime package
 |   +-- model lifecycle and inference API
 |   +-- context and KV-cache management
 |   +-- text, vision, audio and embeddings
@@ -65,7 +91,11 @@ Quantum CoreOS
 
 **Ember CoreUI remains a first-class standalone product and Repack.** Quantum CoreOS may ship an optimized package for it, but CoreUI itself must continue to install and run on supported non-Quantum operating systems and retain its own installer, versioning and release lifecycle.
 
-This serves users who want the CoreUI stack without replacing their operating system and prevents the OS project from becoming a prerequisite for the existing product.
+Quantum Runtime and Quantum Control follow the same principle. They are independently installable modules that are useful before Quantum CoreOS exists.
+
+This serves users who want the CoreUI stack or the infrastructure modules without replacing their operating system and prevents the OS project from becoming a prerequisite for the existing products.
+
+See `PROJECT-BOUNDARIES.md` for repository and lifecycle rules.
 
 ## TCI layer
 
@@ -86,20 +116,20 @@ Quantum TCI
 +-- diagnostics
 +-- Quantum Control requests
     |
-qcored only for typed privileged operations
+Quantum Control/qcored only for typed privileged operations
 ```
 
 The TCI carries a stable original personality package, identity and continuity across OS surfaces. Mutable user memories and live machine state remain outside the model recipe and are supplied through scoped services.
 
 See `TCI.md` for the detailed model, personality and authorization plan.
 
-## KeyHelp replacement
+## Quantum Control role
 
-The KeyHelp replacement is **Quantum Control**. It is part of the OS distribution, but not part of the kernel and not part of the AI runtime.
+Quantum Control is the long-term KeyHelp replacement. In Quantum CoreOS it is a native first-class package, but it remains a separate upstream project and is neither part of the kernel nor part of Quantum Runtime.
 
 Quantum Control owns machine and hosting administration. Quantum Runtime owns AI inference. Applications own their own data and product logic.
 
-Privileged actions go through `qcored`. The UI requests a typed operation, for example:
+Privileged actions go through the Control broker. A UI or TCI requests a typed operation, for example:
 
 ```json
 {
@@ -108,19 +138,19 @@ Privileged actions go through `qcored`. The UI requests a typed operation, for e
 }
 ```
 
-`qcored` validates caller, parameters and policy before making a system change. AI-generated text is never executed as a root shell command.
+The broker validates caller, parameters and policy before making a system change. AI-generated text is never executed as a root shell command.
 
 ## Component ownership
 
 Every dependency has one ownership state:
 
 ```text
-managed   Quantum CoreOS owns lifecycle, configuration and updates.
-external  Detected and used, but never replaced or reconfigured implicitly.
-disabled  Not used by this installation.
+managed   lifecycle, configuration and updates are managed by the active product profile.
+external  detected and used, but never replaced or reconfigured implicitly.
+disabled  not used by this installation.
 ```
 
-This model is carried forward from the STΛRLIGHT UNIT Repack installer foundation.
+This model is carried forward from the STΛRLIGHT UNIT Repack installer foundation and should be shared by Runtime, Control and CoreOS.
 
 ## Runtime compatibility
 
@@ -147,11 +177,24 @@ CoreUI and the Game should target a stable runtime contract instead of embedding
 10. GPU access is centrally schedulable.
 11. TCI context providers expose only permission-scoped system information.
 12. The TCI personality package never contains user secrets or live mutable state.
+13. CoreOS-specific changes to Runtime or Control must go upstream through their repositories rather than living as hidden forks.
 
 ## Versioning
 
 Quantum CoreOS, Quantum Control, Quantum Runtime, Quantum TCI, Quantum Shell, Ember CoreUI, STU Game and STU Repack keep independent version numbers. An OS release records a tested compatibility matrix instead of forcing all components to share one version.
 
-## First practical target
+## First practical targets
 
-The first practical CoreOS work is contracts, package boundaries, the TCI prototype and a prototype shell. It is not a custom kernel and not yet a full ISO.
+Active implementation order is:
+
+```text
+Quantum Runtime
+      ↓
+Quantum Control
+      ↓
+stable shared contracts
+      ↓
+Quantum CoreOS
+```
+
+The first CoreOS-specific work remains integration, the TCI, scheduler and shell after the two reusable upstream modules are ready. It is not a custom kernel and not yet a full ISO.
