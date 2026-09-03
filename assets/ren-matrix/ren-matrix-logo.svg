@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-labelledby="title desc">
+<title id="title">Starlight Unit Ren Matrix Animated</title>
+<desc id="desc">Animierte Ren Sternenmatrix fuer Starlight Unit Studios</desc>
+<defs>
+  <linearGradient id="coreGradient" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#5b92ff"/>
+    <stop offset="0.48" stop-color="#9b7dff"/>
+    <stop offset="1" stop-color="#e29b39"/>
+  </linearGradient>
+  <radialGradient id="haloGradient" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="#ffffff" stop-opacity="0.98"/>
+    <stop offset="0.38" stop-color="#7facff" stop-opacity="0.72"/>
+    <stop offset="1" stop-color="#5b92ff" stop-opacity="0"/>
+  </radialGradient>
+  <filter id="renGlow" x="-70%" y="-70%" width="240%" height="240%">
+    <feGaussianBlur stdDeviation="3.2" result="blur"/>
+    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="amberGlow" x="-80%" y="-80%" width="260%" height="260%">
+    <feGaussianBlur stdDeviation="2.1" result="blur"/>
+    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <style>
+    .guide { fill: none; stroke: rgba(91,146,255,0.2); stroke-width: 0.75; stroke-dasharray: 2 5; }
+    .orbitA { fill: none; stroke: rgba(91,146,255,0.66); stroke-width: 1.25; stroke-dasharray: 4 7; transform-origin: 110px 110px; animation: spinA 19s linear infinite; }
+    .orbitB { fill: none; stroke: rgba(226,155,57,0.66); stroke-width: 1.25; stroke-dasharray: 2 8; transform-origin: 110px 110px; animation: spinB 15s linear infinite; }
+    .nodeBlue { fill: #5b92ff; stroke: #fff; stroke-width: 1.5; }
+    .nodeGold { fill: #e29b39; stroke: #fff; stroke-width: 1.5; }
+    .runes { fill: none; stroke: #e29b39; stroke-width: 1.7; stroke-linecap: square; stroke-linejoin: miter; opacity: 0.9; animation: runePulse 3.6s ease-in-out infinite; }
+    .starWrap { transform-origin: 110px 110px; animation: starBreathe 5.4s ease-in-out infinite; }
+    .outer { fill: rgba(91,146,255,0.055); stroke: url(#coreGradient); stroke-width: 1.45; }
+    .inner { fill: rgba(255,255,255,0.55); stroke: #5b92ff; stroke-width: 1.15; }
+    .diamond { fill: rgba(138,111,242,0.055); stroke: rgba(138,111,242,0.85); stroke-width: 1.2; stroke-dasharray: 3 4; }
+    .coreWrap { transform-origin: 110px 110px; animation: corePulse 2.8s ease-in-out infinite; }
+    .coreHalo { fill: url(#haloGradient); opacity: 0.88; }
+    .coreRing { fill: rgba(255,255,255,0.86); stroke: #e29b39; stroke-width: 1.8; stroke-dasharray: 3 3; }
+    .coreRune { fill: none; stroke: #e29b39; stroke-width: 2.2; }
+    .corePoint { fill: #fff7e9; stroke: #e29b39; stroke-width: 2; }
+    .haloBg { transform-origin: 110px 110px; animation: haloPulse 4.2s ease-in-out infinite; }
+    .codes { fill: #34415a; font-family: monospace; font-size: 7px; letter-spacing: 1.1px; text-anchor: middle; }
+    @keyframes spinA { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes spinB { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+    @keyframes runePulse { 0%,100% { opacity: 0.55; filter: drop-shadow(0 0 0 rgba(226,155,57,0)); } 50% { opacity: 1; filter: drop-shadow(0 0 4px rgba(226,155,57,0.64)); } }
+    @keyframes starBreathe { 0%,100% { opacity: 0.84; transform: scale(0.98) rotate(0deg); } 50% { opacity: 1; transform: scale(1.025) rotate(1.5deg); } }
+    @keyframes corePulse { 0%,100% { opacity: 0.78; transform: scale(0.92); } 50% { opacity: 1; transform: scale(1.08); } }
+    @keyframes haloPulse { 0%,100% { opacity: 0.56; transform: scale(0.96); } 50% { opacity: 1; transform: scale(1.04); } }
+  </style>
+</defs>
+<g class="guide">
+  <path d="M25 110H195M110 25V195M50 50L170 170M170 50L50 170"/>
+  <path d="M38 82H58V62M162 62V82H182M38 138H58V158M162 158V138H182"/>
+  <circle cx="110" cy="110" r="82"/><circle cx="110" cy="110" r="57"/>
+</g>
+<g class="haloBg"><circle cx="110" cy="110" r="46" fill="url(#haloGradient)" opacity="0.35"/></g>
+<g class="orbitA">
+  <ellipse cx="110" cy="110" rx="91" ry="43" transform="rotate(18 110 110)"/>
+  <circle class="nodeBlue" cx="198" cy="120" r="4.5"/>
+  <circle class="nodeGold" cx="34" cy="72" r="3.5"/>
+</g>
+<g class="orbitB">
+  <ellipse cx="110" cy="110" rx="89" ry="38" transform="rotate(112 110 110)"/>
+  <path d="M110 15l4 7-4 7-4-7z"/>
+  <circle class="nodeGold" cx="106" cy="198" r="4"/>
+</g>
+<g class="runes">
+  <path d="M50 43h13l-7 10 9 8H48l7-8z"/><path d="M159 40v18l8-9 7 10V40"/>
+  <path d="M176 143h-15l8 8-9 11h17"/><path d="M61 164V145l-9 10-8-10v19"/>
+  <path d="M24 103l7 7-7 7M196 103l-7 7 7 7"/><path d="M103 24l7 7 7-7M103 196l7-7 7 7"/>
+</g>
+<g class="starWrap" filter="url(#renGlow)">
+  <path class="outer" d="M110 35l15 47 45-25-26 45 47 8-47 9 26 44-45-24-15 46-15-46-45 24 26-44-47-9 47-8-26-45 45 25z"/>
+  <path class="inner" d="M110 58l13 36 35-13-23 29 23 29-35-13-13 36-13-36-35 13 23-29-23-29 35 13z"/>
+  <path class="diamond" d="M110 75l35 35-35 35-35-35z"/>
+</g>
+<g class="coreWrap" filter="url(#amberGlow)">
+  <circle class="coreHalo" cx="110" cy="110" r="28"/><circle class="coreRing" cx="110" cy="110" r="19"/>
+  <path class="coreRune" d="M110 91l11 19-11 19-11-19zM99 110h22"/><circle class="corePoint" cx="110" cy="110" r="4.5"/>
+</g>
+<g class="codes">
+  <text x="109" y="13">N-73</text><text x="109" y="214">NARU-YONE</text>
+  <text x="7" y="113" transform="rotate(-90 7 113)">IRENU-ATHAR</text>
+  <text x="213" y="113" transform="rotate(90 213 113)">SEKHEN-KUN</text>
+</g>
+</svg>
