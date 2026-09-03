@@ -21,11 +21,11 @@ Define shared contracts before changing their architecture:
 - TCI context-provider contract
 - typed action contract
 
-Goal: future Runtime, Control and OS can replace existing infrastructure without rewriting the applications.
+Goal: Quantum Runtime and Quantum Control become reusable standalone products first. Quantum CoreOS integrates their stable releases later without rewriting them.
 
-## Phase 1: Quantum Runtime
+## Phase 1: Quantum Runtime standalone project
 
-Build the Ollama replacement as an independent service.
+Build Quantum Runtime in its own repository as the Ollama replacement and general local AI service.
 
 Initial scope:
 
@@ -41,43 +41,15 @@ Initial scope:
 - Ollama compatibility adapter
 - initial pluggable inference backend
 
-CoreUI and Game should be able to switch between external Ollama and managed Quantum Runtime.
+CoreUI and Game should be able to switch between external Ollama and Quantum Runtime without requiring Quantum CoreOS.
 
-The first canonical Quantum CoreOS TCI model target is Gemma 4 e4b. Exact source tag and quantization remain hardware-profile decisions rather than personality identity.
+The first canonical future Quantum CoreOS TCI model target is Gemma 4 e4b. Exact source tag and quantization remain hardware-profile decisions rather than personality identity.
 
-## Phase 2: Quantum TCI prototype
+## Phase 2: Quantum Control standalone project
 
-Build the OS-native Terran Cognitive Intelligence on top of Quantum Runtime before deep shell integration.
+Build Quantum Control in its own repository as the reusable Linux/server administration platform and long-term KeyHelp replacement.
 
-The prototype validates:
-
-- Gemma 4 e4b through Quantum Runtime
-- canonical model recipe/personality package
-- original capable ship-intelligence style personality
-- identity continuity across at least two OS surfaces
-- read-only typed system context providers
-- user/session scoped memory
-- optional speech input/output hooks
-- bounded initiative for health, updates and runtime events
-- one privileged action proposed by TCI but completed only through explicit `qcored` authorization
-
-The TCI is a system cognitive layer, not a root shell and not an Ember CoreUI replacement.
-
-## Phase 3: Quantum Scheduler
-
-Centralize AI resource management:
-
-- GPU and VRAM accounting
-- model residency
-- request queues and priorities
-- resource limits per application
-- shared model process where safe
-- independent application contexts and personalities
-- TCI priority class and responsiveness targets
-
-## Phase 4: Quantum Control
-
-Build the OS-native KeyHelp replacement as a separate service and UI:
+Initial scope:
 
 - service status and logs
 - domains and reverse proxy
@@ -90,12 +62,75 @@ Build the OS-native KeyHelp replacement as a separate service and UI:
 - update management
 - application install/update/remove
 - hardware and GPU status
+- typed privileged-operation broker and audit model
 
-All privileged actions go through `qcored` with typed operations and audit records. The TCI may explain and propose these operations, but never bypass their authorization policy.
+Quantum Control must work on supported existing Linux/server installations before Quantum CoreOS exists.
 
-## Phase 5: Quantum Shell prototype
+CoreUI, the STU Repack and other deployments may integrate selected Control capabilities without becoming dependent on Quantum CoreOS.
 
-Create a desktop-shell prototype before creating a distribution image.
+## Phase 3: Runtime and Control stabilization
+
+Before OS implementation, stabilize the reusable module contracts:
+
+- Runtime API v1
+- Control API v1
+- common health/status contract
+- component ownership/adoption behavior
+- package and release verification
+- backup and rollback contracts
+- OS adapter boundaries
+- tested CoreUI integration
+- tested STU Repack integration where applicable
+
+The output of this phase is a compatibility matrix of independently released Quantum Runtime and Quantum Control versions.
+
+## Phase 4: Quantum CoreOS integration foundation
+
+Only after Runtime and Control are independently usable does active OS implementation begin.
+
+Quantum CoreOS consumes released upstream packages and adds OS-specific integration:
+
+- native service profiles
+- hardened permissions and sandboxing
+- common logging and health aggregation
+- unified update coordination
+- local IPC optimizations where useful
+- GPU/resource policies
+- OS package profiles
+
+CoreOS does not maintain private forks of Quantum Runtime or Quantum Control.
+
+## Phase 5: Quantum Scheduler and TCI
+
+Build the OS-native coordination and cognitive layers on top of the released Runtime and Control modules.
+
+Quantum Scheduler:
+
+- GPU and VRAM accounting
+- model residency
+- request queues and priorities
+- resource limits per application
+- shared model process where safe
+- independent application contexts and personalities
+- TCI priority class and responsiveness targets
+
+Quantum TCI prototype:
+
+- Gemma 4 e4b through Quantum Runtime
+- canonical model recipe/personality package
+- original capable ship-intelligence style personality
+- identity continuity across OS surfaces
+- read-only typed system context providers
+- user/session scoped memory
+- optional speech input/output hooks
+- bounded initiative for health, updates and runtime events
+- privileged actions completed only through Quantum Control/qcored authorization
+
+The TCI is a system cognitive layer, not a root shell and not an Ember CoreUI replacement.
+
+## Phase 6: Quantum Shell prototype
+
+Create the desktop shell after the reusable services and TCI contracts exist.
 
 The prototype must validate:
 
@@ -107,15 +142,15 @@ The prototype must validate:
 - Ren Matrix cursor states
 - launcher
 - notifications
-- system control surfaces
+- system control surfaces backed by Quantum Control
 - native TCI presence across shell surfaces
-- optional Ember CoreUI desktop application
+- optional Ember CoreUI desktop application backed by Quantum Runtime
 
 The first prototype may run on an existing Linux desktop/compositor. The design and interaction model matter before distro packaging.
 
-## Phase 6: CoreOS Server image
+## Phase 7: CoreOS Server image
 
-Produce the first clean-server installation target:
+Produce the first clean-server installation target using the already released modules:
 
 - minimal Linux base
 - Quantum Control
@@ -140,7 +175,7 @@ reboot
 open Quantum Control
 ```
 
-## Phase 7: Desktop and Workstation editions
+## Phase 8: Desktop and Workstation editions
 
 Desktop:
 
@@ -154,9 +189,9 @@ Desktop:
 
 Workstation adds development tools and local server services.
 
-Server, Desktop and Workstation share the same service contracts.
+Server, Desktop and Workstation share the same Runtime and Control releases and service contracts.
 
-## Phase 8: Native distribution hardening
+## Phase 9: Native distribution hardening
 
 Only after the stack is stable:
 
@@ -175,9 +210,11 @@ Only after the stack is stable:
 - cloning every feature of a general shared-hosting panel
 - coupling CoreUI or the Game to one CoreOS release
 - requiring Quantum CoreOS to use Ember CoreUI
+- making Quantum Runtime or Quantum Control OS-only
+- maintaining private CoreOS forks of Runtime or Control
 - giving AI unrestricted shell/root access
 - storing mutable user secrets or live machine state inside the TCI model recipe
 
 ## Parallel development rule
 
-Quantum CoreOS must not block current production work. CoreUI, Game/Homepages and Repack remain first-class independent projects while their interfaces gradually converge on the shared CoreOS contracts.
+Quantum CoreOS must not block current production work. CoreUI, Game/Homepages and Repack remain first-class independent projects. Quantum Runtime and Quantum Control are developed and proven independently before the OS is implemented around them.
