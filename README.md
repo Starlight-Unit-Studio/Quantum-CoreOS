@@ -1,5 +1,7 @@
 # Quantum-CoreOS
 
+[![DOI](https://zenodo.org/badge/1355935450.svg)](https://doi.org/10.5281/zenodo.22287437)
+
 ```text
 Tri-Solaris Alliance // Quantum Core OS v2163.4
 -----------------------------------------------
